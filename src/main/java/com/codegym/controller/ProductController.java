@@ -57,15 +57,22 @@ public class ProductController {
 		return "redirect:/products";
 	}
 
+	@GetMapping("/{id}/view")
+	public String view(@PathVariable int id, Model model) {
+		Product product = productService.findById(id);
+		model.addAttribute("product", product);
+		return "view";
+	}
+
 	@GetMapping("/{id}/delete")
 	public String delete(@PathVariable int id, Model model) {
 		Product product = productService.findById(id);
 		model.addAttribute("product", product);
 		return "delete";
 	}
-	@PostMapping("/remove")
-	public String remove(Product product, RedirectAttributes redirectAttributes) {
-		productService.remove(product.getId());
+	@PostMapping("/{id}/remove")
+	public String remove(@PathVariable int id, RedirectAttributes redirectAttributes) {
+		productService.remove(id);
 		redirectAttributes.addFlashAttribute("success", "Product deleted");
 		return "redirect:/products";
 	}
