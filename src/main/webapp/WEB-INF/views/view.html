@@ -17,7 +17,7 @@
     </div>
     <div class="cus-detail">
         <label>Price:</label>
-        <label th:text="${product.price}"></label>
+        <label th:text="${#numbers.formatDecimal(product.price, 1, 'COMMA', 2, 'POINT')}" id="price_fmt"></label>
     </div>
     <div class="cus-detail">
         <label>Description:</label>
