@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,6 +42,31 @@ public class ProductController {
 		} while (productService.findById(product.getId()) != null);
 		productService.add(product);
 		redirectAttributes.addFlashAttribute("success", "Product successfully added");
+		return "redirect:/products";
+	}
+
+	@GetMapping("/{id}/edit")
+	public String update(@PathVariable int id, Model model) {
+		model.addAttribute("product", productService.findById(id));
+		return "edit";
+	}
+	@PostMapping("/update")
+	public String update(Product product, RedirectAttributes redirectAttributes) {
+		productService.update(product);
+		redirectAttributes.addFlashAttribute("success", "Product successfully updated");
+		return "redirect:/products";
+	}
+
+	@GetMapping("/{id}/delete")
+	public String delete(@PathVariable int id, Model model) {
+		Product product = productService.findById(id);
+		model.addAttribute("product", product);
+		return "delete";
+	}
+	@PostMapping("/remove")
+	public String remove(Product product, RedirectAttributes redirectAttributes) {
+		productService.remove(product.getId());
+		redirectAttributes.addFlashAttribute("success", "Product deleted");
 		return "redirect:/products";
 	}
 }
