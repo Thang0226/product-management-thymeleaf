@@ -2,17 +2,14 @@ package com.codegym.controller;
 
 import com.codegym.model.Product;
 import com.codegym.service.IProductService;
-import com.codegym.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -75,5 +72,18 @@ public class ProductController {
 		productService.remove(id);
 		redirectAttributes.addFlashAttribute("success", "Product deleted");
 		return "redirect:/products";
+	}
+
+	@GetMapping("/search")
+	public String search(@RequestParam String name, Model model) {
+		List<Product> products = productService.findAll();
+		List<Product> results = new ArrayList<>();
+		for (Product product : products) {
+			if (product.getName().toLowerCase().contains(name.toLowerCase())) {
+				results.add(product);
+			}
+		}
+		model.addAttribute("products", results);
+		return "list";
 	}
 }

@@ -9,7 +9,7 @@
 <h2>Product List</h2>
 <p>
   <a th:href="@{/products/create}">
-    Add new product
+    <strong>Add new product</strong>
   </a>
 </p>
 
@@ -41,6 +41,22 @@
   </tr>
   </tbody>
 </table>
+
+<div style="margin-top: 20px">
+  <form th:action="@{/products/search}" method="GET">
+    <label for="name"><strong>Search product by name</strong></label>
+    <br>
+    <input type="text" id="name" placeholder="Product Name" name="name">
+    <br>
+    <input type="submit" value="Search">
+  </form>
+</div>
+
+<p>
+  <a th:href="@{/products}">
+    Back to Product list
+  </a>
+</p>
 
 <div th:replace="~{/layout :: footer}"></div>
 </body>
